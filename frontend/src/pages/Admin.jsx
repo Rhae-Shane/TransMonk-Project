@@ -12,16 +12,15 @@ export default function Admin() {
     production: 0,
     underShipment: 0,
     expectedShipmentDate: "",
-    shipmentType: "air"
+    shipmentType: "air",
   });
 
   async function load() {
     try {
       const res = await axios.get(`${API}/products`);
       setProducts(res.data);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to load");
+    } catch {
+      alert("Failed to load products");
     }
   }
 
@@ -38,19 +37,25 @@ export default function Admin() {
         production: 0,
         underShipment: 0,
         expectedShipmentDate: "",
-        shipmentType: "air"
+        shipmentType: "air",
       });
       load();
-    } catch (err) {
-      alert("Failed to create");
+    } catch {
+      alert("Create failed");
     }
   }
 
-  async function updateProduct(id, update) {
+  async function saveProduct(p) {
     try {
-      await axios.put(`${API}/products/${id}`, update);
+      await axios.put(`${API}/products/${p._id}`, {
+        ready: Number(p.localReady ?? p.ready),
+        production: Number(p.localProduction ?? p.production),
+        underShipment: Number(p.localUnderShipment ?? p.underShipment),
+        expectedShipmentDate: p.localDate ?? p.expectedShipmentDate,
+        shipmentType: p.localType ?? p.shipmentType,
+      });
       load();
-    } catch (err) {
+    } catch {
       alert("Update failed");
     }
   }
@@ -60,40 +65,48 @@ export default function Admin() {
     try {
       await axios.delete(`${API}/products/${id}`);
       load();
-    } catch (err) {
+    } catch {
       alert("Delete failed");
     }
   }
 
+  function downloadPDF() {
+    window.open(`${API}/pdf`, "_blank");
+  }
+
   return (
     <div className="container">
-      <div className="title">
+      
+      {/* Header */}
+      <div className="title" style={{ display:"flex", justifyContent:"space-between", marginBottom:20 }}>
         <h2>Admin Inventory</h2>
+        <button onClick={downloadPDF}>Download PDF</button>
       </div>
 
-      {/* Create Product Form */}
-      <form onSubmit={createProduct} style={{ marginBottom: 16 }}>
+      {/* Add Product Form */}
+      <form onSubmit={createProduct} style={{ marginBottom:16 }}>
         <div style={{ display:"flex", flexWrap:"wrap", gap:10 }}>
+
           <input className="input" placeholder="Name" required
-                 value={form.name} onChange={e=>setForm({...form, name:e.target.value})} />
+            value={form.name} onChange={e=>setForm({...form, name:e.target.value})} />
 
           <input className="input" placeholder="Description"
-                 value={form.description} onChange={e=>setForm({...form, description:e.target.value})} />
+            value={form.description} onChange={e=>setForm({...form, description:e.target.value})} />
 
           <input className="input" type="number" placeholder="Ready"
-                 value={form.ready} onChange={e=>setForm({...form, ready:Number(e.target.value)})} />
+            value={form.ready} onChange={e=>setForm({...form, ready:e.target.value})} />
 
           <input className="input" type="number" placeholder="Production"
-                 value={form.production} onChange={e=>setForm({...form, production:Number(e.target.value)})} />
+            value={form.production} onChange={e=>setForm({...form, production:e.target.value})} />
 
           <input className="input" type="number" placeholder="Under Shipment"
-                 value={form.underShipment} onChange={e=>setForm({...form, underShipment:Number(e.target.value)})} />
+            value={form.underShipment} onChange={e=>setForm({...form, underShipment:e.target.value})} />
 
           <input className="input" type="date"
-                 value={form.expectedShipmentDate} onChange={e=>setForm({...form, expectedShipmentDate:e.target.value})} />
+            value={form.expectedShipmentDate} onChange={e=>setForm({...form, expectedShipmentDate:e.target.value})} />
 
           <select className="input" value={form.shipmentType}
-                  onChange={e=>setForm({...form, shipmentType:e.target.value})}>
+            onChange={e=>setForm({...form, shipmentType:e.target.value})}>
             <option value="air">Air</option>
             <option value="water">Water</option>
             <option value="">N/A</option>
@@ -103,58 +116,59 @@ export default function Admin() {
         </div>
       </form>
 
-      {/* Product list */}
+      {/* Existing Product Cards */}
       {products.map((p) => (
         <div key={p._id} className="product">
+
           <strong>{p.name}</strong>
           <div className="small">{p.description}</div>
 
-          <div style={{ marginTop:10, display:"flex", gap:10, flexWrap:"wrap" }}>
-            <label className="small">Ready:
-              <input className="input" type="number" defaultValue={p.ready}
-                     onBlur={e=>updateProduct(p._id, { ready:Number(e.target.value) })} />
-            </label>
-
-            <label className="small">Production:
-              <input className="input" type="number" defaultValue={p.production}
-                     onBlur={e=>updateProduct(p._id, { production:Number(e.target.value) })} />
-            </label>
-
-            <label className="small">UnderShipment:
-              <input className="input" type="number" defaultValue={p.underShipment}
-                     onBlur={e=>updateProduct(p._id, { underShipment:Number(e.target.value) })} />
-            </label>
-
-            <label className="small">Ship Date:
-              <input className="input" type="date" defaultValue={p.expectedShipmentDate}
-                     onBlur={e=>updateProduct(p._id, { expectedShipmentDate:e.target.value })} />
-            </label>
-
-            <label className="small">Type:
-              <select className="input" defaultValue={p.shipmentType}
-                      onChange={e=>updateProduct(p._id, { shipmentType:e.target.value })}>
-                <option value="">N/A</option>
-                <option value="air">Air</option>
-                <option value="water">Water</option>
-              </select>
-            </label>
+          {/* Clean horizontal details */}
+          <div className="details-row">
+            <div className="detail-item">Ready: <b>{p.ready}</b></div>
+            <div className="detail-item">Production: <b>{p.production}</b></div>
+            <div className="detail-item">Under Ship: <b>{p.underShipment}</b></div>
+            <div className="detail-item">Type: <b>{p.shipmentType || "N/A"}</b></div>
+            <div className="detail-item">Date: <b>{p.expectedShipmentDate || "N/A"}</b></div>
           </div>
 
-          {/* Dots for leads (view only) */}
-          <div style={{ marginTop:10 }}>
-            <div style={{ display:"flex", gap:12, alignItems:"center" }}>
-              <span className="dot green"></span> {p.leads.green}
-              <span className="dot yellow"></span> {p.leads.yellow}
-              <span className="dot red"></span> {p.leads.red}
-            </div>
+          {/* Editable Fields */}
+          <div style={{ marginTop:12, display:"flex", gap:10, flexWrap:"wrap" }}>
+            <input className="input" type="number" defaultValue={p.ready}
+              onChange={(e)=>p.localReady = e.target.value} />
+
+            <input className="input" type="number" defaultValue={p.production}
+              onChange={(e)=>p.localProduction = e.target.value} />
+
+            <input className="input" type="number" defaultValue={p.underShipment}
+              onChange={(e)=>p.localUnderShipment = e.target.value} />
+
+            <input className="input" type="date" defaultValue={p.expectedShipmentDate}
+              onChange={(e)=>p.localDate = e.target.value} />
+
+            <select className="input" defaultValue={p.shipmentType}
+              onChange={(e)=>p.localType = e.target.value}>
+              <option value="">N/A</option>
+              <option value="air">Air</option>
+              <option value="water">Water</option>
+            </select>
           </div>
 
-          <div style={{ marginTop:10 }}>
-            <button onClick={()=>deleteProduct(p._id)}>Delete</button>
+          {/* Lead Dots */}
+          <div style={{ marginTop:12, display:"flex", gap:14 }}>
+            <span className="dot green"></span> {p.leads.green}
+            <span className="dot yellow"></span> {p.leads.yellow}
+            <span className="dot red"></span> {p.leads.red}
           </div>
+
+          {/* Save + Delete */}
+          <div style={{ marginTop:12 }}>
+            <button onClick={()=>saveProduct(p)}>Save</button>
+            <button style={{ marginLeft:8 }} onClick={()=>deleteProduct(p._id)}>Delete</button>
+          </div>
+
         </div>
       ))}
-
     </div>
   );
 }

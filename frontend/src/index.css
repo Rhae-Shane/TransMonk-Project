@@ -1,29 +1,39 @@
-/* LIGHT THEME */
+/* ----------------------------------------------------
+   LIGHT THEME VARIABLES
+---------------------------------------------------- */
 :root {
   --bg: #f5f5f6;
   --card-bg: #ffffff;
   --text: #111;
   --border: #dddddd;
   --small: #666;
+  --btn-bg: #e5e5e5;
+  --btn-text: #111;
 }
 
-/* DARK THEME */
+/* ----------------------------------------------------
+   DARK THEME VARIABLES
+---------------------------------------------------- */
 body.dark {
   --bg: #0b0b0c;
   --card-bg: #1a1c1f;
   --text: #f1f3f5;
   --border: #2b2d31;
   --small: #9ca3af;
+  --btn-bg: #2b2d31;
+  --btn-text: #f1f1f1;
 }
 
-/* GLOBAL */
+/* ----------------------------------------------------
+   GLOBAL
+---------------------------------------------------- */
 body {
   margin: 0;
   padding: 0;
   background: var(--bg);
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .container {
@@ -32,7 +42,13 @@ body {
   padding: 16px;
 }
 
-/* TOP BAR */
+.title {
+  margin-bottom: 10px;
+}
+
+/* ----------------------------------------------------
+   TOP BAR (Dark Mode Switch)
+---------------------------------------------------- */
 .topbar {
   padding: 14px 20px;
   display: flex;
@@ -45,35 +61,44 @@ body {
 .dark-btn {
   padding: 8px 16px;
   border-radius: 6px;
-  background: var(--border);
+  background: var(--btn-bg);
+  color: var(--btn-text);
   border: none;
   cursor: pointer;
-  color: var(--text);
-  font-weight: bold;
+  transition: 0.2s;
 }
+
 .dark-btn:hover {
   opacity: 0.8;
 }
 
-/* CARD */
+/* ----------------------------------------------------
+   PRODUCT CARD
+---------------------------------------------------- */
 .product {
   background: var(--card-bg);
   border: 1px solid var(--border);
   padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 14px;
-  transition: 0.2s;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  transition: 0.2s ease-in-out;
 }
+
 .product:hover {
   transform: scale(1.01);
 }
 
+/* ----------------------------------------------------
+   TEXT SIZES
+---------------------------------------------------- */
 .small {
-  font-size: 0.9rem;
   color: var(--small);
+  font-size: 0.9rem;
 }
 
-/* Inputs */
+/* ----------------------------------------------------
+   INPUTS
+---------------------------------------------------- */
 .input {
   padding: 8px;
   border-radius: 6px;
@@ -81,19 +106,35 @@ body {
   background: var(--bg);
   color: var(--text);
   outline: none;
+  transition: 0.2s;
 }
+
 .input:focus {
   border-color: #888;
 }
 
-/* LEAD ROWS */
-.lead-row {
+/* ----------------------------------------------------
+   DETAILS ROW (horizontal)
+---------------------------------------------------- */
+.details-row {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 14px;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-/* DOTS */
+.detail-item {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+/* ----------------------------------------------------
+   DOT COLORS
+---------------------------------------------------- */
 .dot {
   height: 14px;
   width: 14px;
@@ -105,17 +146,69 @@ body {
 .yellow { background-color: #ffcc00; }
 .red { background-color: #ff4d4d; }
 
-/* RESPONSIVE */
-@media (max-width: 600px) {
-  .lead-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .input {
-    width: 100%;
-  }
+/* ----------------------------------------------------
+   LEAD ROW
+---------------------------------------------------- */
+.lead-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ----------------------------------------------------
+   BUTTONS
+---------------------------------------------------- */
+button {
+  padding: 8px 14px;
+  border: none;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: 0.2s;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+/* Delete button (more red tone) */
+button.delete-btn {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+button.delete-btn:hover {
+  background: #e63b3b;
+}
+
+/* ----------------------------------------------------
+   RESPONSIVE (mobile optimised)
+---------------------------------------------------- */
+@media (max-width: 650px) {
   .topbar {
     flex-direction: column;
     gap: 10px;
+    text-align: center;
+  }
+
+  .lead-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .details-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .detail-item {
+    width: 100%;
   }
 }
