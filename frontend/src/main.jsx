@@ -1,33 +1,44 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from './App.jsx'
-import Admin from './Admin.jsx';
-import Sales from './Sales.jsx';
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Admin from "./pages/Admin.jsx";
+import Sales from "./pages/Sales.jsx";
+import "./index.css";
 
-// Import our new styles
-import './index.css'
+function AppWrapper() {
+  const [darkMode, setDarkMode] = useState(false);
 
-// Define the routes
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />, // App is now the layout
-    children: [
-      {
-        index: true, // Default child route
-        element: <Sales />,
-      },
-      {
-        path: "admin",
-        element: <Admin />,
-      },
-    ],
-  },
-]);
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+  return (
+    <>
+      {/* Top Bar */}
+      <div className="topbar">
+        <h2 className="app-title">TransMonk Inventory</h2>
+
+        <button
+          className="dark-btn"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+        </button>
+      </div>
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/admin" replace />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/sales" element={<Sales />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+}
+
+createRoot(document.getElementById("root")).render(<AppWrapper />);

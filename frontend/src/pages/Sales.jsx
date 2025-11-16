@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "https://transmonk-project.onrender.com"; // change if needed
+const API = "https://transmonk-project.onrender.com";
 
 export default function Sales() {
   const [products, setProducts] = useState([]);
@@ -16,9 +16,7 @@ export default function Sales() {
     }
   }
 
-  useEffect(() => {
-    load();
-  }, []);
+  useEffect(() => { load(); }, []);
 
   async function updateLeads(id, newLeads) {
     try {
@@ -32,79 +30,76 @@ export default function Sales() {
 
   return (
     <div className="container">
-      <div className="page-header">
+      <div className="title">
         <h2>Sales Dashboard</h2>
       </div>
 
-      <div className="sales-grid">
-        {products.map((p) => (
-          <div key={p._id} className="card sales-card">
-            {/* Product Title */}
-            <div className="sales-top">
-              <div>
-                <h3 className="product-name">{p.name}</h3>
-                <p className="small" style={{ margin: 0 }}>
-                  {p.description}
-                </p>
-              </div>
-
-              <div className="small product-meta">
-                <div>Ready: {p.ready}</div>
-                <div>Production: {p.production}</div>
-                <div>Ship: {p.underShipment}</div>
-              </div>
+      {products.map((p) => (
+        <div key={p._id} className="product">
+          <div style={{ display: "flex", justifyContent:"space-between" }}>
+            <div>
+              <strong>{p.name}</strong>
+              <div className="small">{p.description}</div>
             </div>
-
-            {/* Lead Dots + Inputs */}
-            <div className="lead-section">
-              <div className="lead-row">
-                <span className="dot green"></span>
-                <input
-                  type="number"
-                  defaultValue={p.leads.green}
-                  className="lead-input"
-                  onBlur={(e) =>
-                    updateLeads(p._id, {
-                      ...p.leads,
-                      green: Number(e.target.value),
-                    })
-                  }
-                />
-              </div>
-
-              <div className="lead-row">
-                <span className="dot yellow"></span>
-                <input
-                  type="number"
-                  defaultValue={p.leads.yellow}
-                  className="lead-input"
-                  onBlur={(e) =>
-                    updateLeads(p._id, {
-                      ...p.leads,
-                      yellow: Number(e.target.value),
-                    })
-                  }
-                />
-              </div>
-
-              <div className="lead-row">
-                <span className="dot red"></span>
-                <input
-                  type="number"
-                  defaultValue={p.leads.red}
-                  className="lead-input"
-                  onBlur={(e) =>
-                    updateLeads(p._id, {
-                      ...p.leads,
-                      red: Number(e.target.value),
-                    })
-                  }
-                />
-              </div>
+            <div className="small">
+              Ready: {p.ready} | Prod: {p.production} | Ship: {p.underShipment}
             </div>
           </div>
-        ))}
-      </div>
+
+          {/* lead inputs with dots */}
+          <div style={{ marginTop:8, display:"flex", gap:14, alignItems:"center" }}>
+            
+            <div className="small lead-row">
+              <span className="dot green"></span>
+              <input
+                className="input"
+                type="number"
+                defaultValue={p.leads.green}
+                onBlur={e =>
+                  updateLeads(p._id, {
+                    green: Number(e.target.value),
+                    yellow: p.leads.yellow,
+                    red: p.leads.red
+                  })
+                }
+              />
+            </div>
+
+            <div className="small lead-row">
+              <span className="dot yellow"></span>
+              <input
+                className="input"
+                type="number"
+                defaultValue={p.leads.yellow}
+                onBlur={e =>
+                  updateLeads(p._id, {
+                    green: p.leads.green,
+                    yellow: Number(e.target.value),
+                    red: p.leads.red
+                  })
+                }
+              />
+            </div>
+
+            <div className="small lead-row">
+              <span className="dot red"></span>
+              <input
+                className="input"
+                type="number"
+                defaultValue={p.leads.red}
+                onBlur={e =>
+                  updateLeads(p._id, {
+                    green: p.leads.green,
+                    yellow: p.leads.yellow,
+                    red: Number(e.target.value)
+                  })
+                }
+              />
+            </div>
+
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
