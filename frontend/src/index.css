@@ -1,27 +1,104 @@
+/* Light Mode */
+:root {
+  --bg: #f4f4f4;
+  --card-bg: #ffffff;
+  --text: #111;
+  --border: #e4e4e4;
+}
+
+/* Dark Mode */
+.dark {
+  --bg: #050505;
+  --card-bg: #111;
+  --text: #fafafa;
+  --border: #333;
+}
 
 body {
-  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   margin: 0;
-  padding: 0;
-  background: #f7f7f7;
+  font-family: Arial, sans-serif;
+  transition: 0.2s;
 }
+
+/* TOP BAR */
+.topbar {
+  padding: 12px 16px;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Dark Mode Button */
+.dark-btn {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.dark-btn:hover {
+  opacity: 0.9;
+}
+
+/* Container */
 .container {
-  max-width: 1000px;
-  margin: 24px auto;
+  max-width: 900px;
+  margin: 20px auto;
   padding: 16px;
-  background: white;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
 }
-.product {
+
+/* Product Card */
+product {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+/* DOTS */
+.dot {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.green { background: #00d26a; }
+.yellow { background: #ffcc00; }
+.red { background: #ff4d4d; }
+
+/* Responsive Inputs */
+input, select {
+  width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #e5e5e5;
+  margin: 6px 0;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--text);
 }
-.form-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-.input { padding:6px 8px; border:1px solid #ddd; border-radius:4px; }
-.btn { padding:8px 12px; border:none; background:#0070f3; color:white; border-radius:4px; cursor:pointer; }
-.btn-danger { background:#e00; }
-.small { font-size:0.9rem; color:#555; }
-.title { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+
+/* Layout adjusts for small screens */
+@media (max-width: 600px) {
+  .container {
+    padding: 12px;
+  }
+  input, select {
+    font-size: 14px;
+  }
+  .topbar {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+}
