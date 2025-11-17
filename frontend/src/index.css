@@ -1,6 +1,4 @@
-/* ----------------------------------------------------
-   LIGHT THEME VARIABLES
----------------------------------------------------- */
+
 :root {
   --bg: #f5f5f6;
   --card-bg: #ffffff;
@@ -11,9 +9,7 @@
   --btn-text: #111;
 }
 
-/* ----------------------------------------------------
-   DARK THEME VARIABLES
----------------------------------------------------- */
+
 body.dark {
   --bg: #0b0b0c;
   --card-bg: #1a1c1f;
@@ -24,9 +20,7 @@ body.dark {
   --btn-text: #f1f1f1;
 }
 
-/* ----------------------------------------------------
-   GLOBAL
----------------------------------------------------- */
+
 body {
   margin: 0;
   padding: 0;
@@ -46,9 +40,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* ----------------------------------------------------
-   TOP BAR (Dark Mode Switch)
----------------------------------------------------- */
+
 .topbar {
   padding: 14px 20px;
   display: flex;
@@ -72,9 +64,7 @@ body {
   opacity: 0.8;
 }
 
-/* ----------------------------------------------------
-   PRODUCT CARD
----------------------------------------------------- */
+
 .product {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -88,17 +78,13 @@ body {
   transform: scale(1.01);
 }
 
-/* ----------------------------------------------------
-   TEXT SIZES
----------------------------------------------------- */
+
 .small {
   color: var(--small);
   font-size: 0.9rem;
 }
 
-/* ----------------------------------------------------
-   INPUTS
----------------------------------------------------- */
+
 .input {
   padding: 8px;
   border-radius: 6px;
@@ -113,9 +99,6 @@ body {
   border-color: #888;
 }
 
-/* ----------------------------------------------------
-   DETAILS ROW (horizontal)
----------------------------------------------------- */
 .details-row {
   display: flex;
   flex-wrap: wrap;
@@ -132,9 +115,7 @@ body {
   background: var(--card-bg);
 }
 
-/* ----------------------------------------------------
-   DOT COLORS
----------------------------------------------------- */
+
 .dot {
   height: 14px;
   width: 14px;
@@ -146,18 +127,14 @@ body {
 .yellow { background-color: #ffcc00; }
 .red { background-color: #ff4d4d; }
 
-/* ----------------------------------------------------
-   LEAD ROW
----------------------------------------------------- */
+
 .lead-row {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* ----------------------------------------------------
-   BUTTONS
----------------------------------------------------- */
+
 button {
   padding: 8px 14px;
   border: none;
@@ -173,7 +150,6 @@ button:hover {
   opacity: 0.85;
 }
 
-/* Delete button (more red tone) */
 button.delete-btn {
   background: #ff4d4d;
   color: #fff;
@@ -183,9 +159,7 @@ button.delete-btn:hover {
   background: #e63b3b;
 }
 
-/* ----------------------------------------------------
-   RESPONSIVE (mobile optimised)
----------------------------------------------------- */
+
 @media (max-width: 650px) {
   .topbar {
     flex-direction: column;
