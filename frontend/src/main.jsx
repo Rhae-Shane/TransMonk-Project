@@ -32,7 +32,7 @@ function AppWrapper() {
 
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/admin" replace />} />
+          <Route path="/" element={<Navigate to="/sales" replace />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/sales" element={<Sales />} />
         </Routes>
