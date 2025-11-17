@@ -1,4 +1,4 @@
-// backend/src/index.js
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -13,12 +13,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// routes
+
 app.use("/products", productsRoute);
 app.use("/leads", leadsRoute);
 app.use("/pdf", pdfRoute);
 
-// root
+
 app.get("/", (req, res) => res.send("Inventory API running"));
 
 const PORT = process.env.PORT || 5000;
