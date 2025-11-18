@@ -9,12 +9,24 @@ function AppWrapper() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
+    if (darkMode) document.body.classList.add("dark");
+    else document.body.classList.remove("dark");
   }, [darkMode]);
+
+  // 🔥 KEEP RENDER BACKEND AWAKE 🔥
+  useEffect(() => {
+    const pingBackend = () => {
+      fetch("https://transmonk-project.onrender.com/")
+        .then(() => console.log("Backend pinged"))
+        .catch(() => console.log("Ping failed"));
+    };
+
+    pingBackend(); // ping on app load
+
+    const interval = setInterval(pingBackend, 600000); // every 10 min
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
